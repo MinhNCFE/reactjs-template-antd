@@ -51,7 +51,7 @@ function LoginAdmin() {
         localStorage.setItem("roles", JSON.stringify(res.data.roles));
         setTimeout(() => {
           navigate("/admin");
-        }, 1000);
+        }, 500);
       })
 
       .catch((err) => {

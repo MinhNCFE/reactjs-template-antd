@@ -11,6 +11,7 @@ import ListUser from "./ListUser";
 import ListProduct from "./ListProduct";
 import LoginAdmin from "./LoginAdmin";
 import ListCategories from "./ListCategories";
+import LogoutAdmin from "./LogoutAdmin";
 
 const { Header, Content, Sider } = Layout;
 function getItem(label, key, icon, children) {

@@ -1,8 +1,8 @@
 import React from "react";
-import { Popconfirm, message } from "antd";
+import { Button, Popconfirm, message } from "antd";
 import axios from "axios";
 
-function DeleteUser({ userId, fetchUsers}) {
+function DeleteUser({ userId, fetchUsers, disabled }) {
   const handleDelete = () => {
     const token = localStorage.getItem("token");
     axios
@@ -26,7 +26,9 @@ function DeleteUser({ userId, fetchUsers}) {
       okText="Yes"
       cancelText="No"
     >
-      <a style={{ color: "red" }}>Delete</a>
+      <Button danger disabled={disabled}>
+        Delete
+      </Button>
     </Popconfirm>
   );
 }

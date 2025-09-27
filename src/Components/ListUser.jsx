@@ -75,15 +75,18 @@ function ListUser() {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          {/* <a>Edit</a> */}
-          <DeleteUser userId ={record.id} fetchUsers = {fetchUsers}/>
+          <DeleteUser
+            userId={record.id}
+            fetchUsers={fetchUsers}
+            disabled={record.roles.includes("ROLE_ADMIN")}
+          />
         </Space>
       ),
     },
   ];
   return (
     <>
-      <AddUser fetchUsers = {fetchUsers}/>
+      <AddUser fetchUsers={fetchUsers} />
       <Table columns={columns} dataSource={users} rowKey="id" />
     </>
   );
