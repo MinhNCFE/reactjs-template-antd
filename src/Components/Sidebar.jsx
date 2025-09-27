@@ -10,6 +10,7 @@ import { useState } from "react";
 import ListUser from "./ListUser";
 import ListProduct from "./ListProduct";
 import LoginAdmin from "./LoginAdmin";
+import ListCategories from "./ListCategories";
 
 const { Header, Content, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -26,8 +27,9 @@ const items = [
   getItem("Manage", "sub1", <DesktopOutlined />, [
     getItem("User", "2"),
     getItem("Product", "3"),
+    getItem("Categories", "4"),
   ]),
-  getItem("Logout", "4", <LogoutOutlined />),
+  getItem("Logout", "5", <LogoutOutlined />),
 ];
 
 function Sidebar() {
@@ -42,12 +44,14 @@ function Sidebar() {
         return <ListUser />;
       case "3":
         return <ListProduct />;
+      case "4":
+        return <ListCategories />;
       default:
         return <h2>Chọn menu</h2>;
     }
   };
 
-  if(selectedKey === "4") return <LogoutAdmin />;
+  if (selectedKey === "5") return <LogoutAdmin />;
   return (
     <>
       <Layout>

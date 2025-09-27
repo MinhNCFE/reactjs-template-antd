@@ -1,81 +1,90 @@
-import React from "react";
-import { Space, Table, Tag } from 'antd';
+import React, { useEffect, useState } from "react";
+import { Button, Space, Switch, Table, Tag } from "antd";
+import axios from "axios";
+import AddUser from "./AddUser";
+import DeleteUser from "./DeleteUser";
 
 function ListUser() {
-    const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a>{text}</a>,
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
-      <>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
+  const [users, setUsers] = useState([]);
+
+  const fetchUsers = () => {
+    const token = localStorage.getItem("token"); // lấy token đã lưu khi login
+    axios
+      .get("http://localhost:8080/api/admin/users", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setUsers(res.data);
+      })
+      .catch((err) => console.error(err));
+  };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "Full Name",
+      dataIndex: "fullName",
+      key: "fullName",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
+      render: (text) => text || <i style={{ color: "gray" }}>N/A</i>,
+    },
+    {
+      title: "Phone",
+      dataIndex: "phone",
+      key: "phone",
+      render: (text) => text || <i style={{ color: "gray" }}>N/A</i>,
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => <Switch checked={status} disabled />,
+    },
+    {
+      title: "Roles",
+      dataIndex: "roles",
+      key: "roles",
+      render: (roles) => (
+        <>
+          {roles.map((role) => (
+            <Tag color={role === "ROLE_ADMIN" ? "volcano" : "blue"} key={role}>
+              {role.replace("ROLE_", "")}
             </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    ),
-  },
-];
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
+          ))}
+        </>
+      ),
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space size="middle">
+          {/* <a>Edit</a> */}
+          <DeleteUser userId ={record.id} fetchUsers = {fetchUsers}/>
+        </Space>
+      ),
+    },
+  ];
   return (
     <>
-      <Table columns={columns} dataSource={data} />
+      <AddUser fetchUsers = {fetchUsers}/>
+      <Table columns={columns} dataSource={users} rowKey="id" />
     </>
   );
 }

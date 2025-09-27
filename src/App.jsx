@@ -1,18 +1,23 @@
-
-import './App.css'
-import HeaderAdmin from './Components/HeaderAdmin';
-import Sidebar from './Components/Sidebar'
-import {Layout } from "antd";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AdminLayout from "./AdminLayout";
+import "./App.css";
+import LoginAdmin from "./Components/LoginAdmin";
+import Register from "./Components/Register";
 function App() {
-
   return (
     <>
-      <Layout style={{ minHeight: '100vh' }}>
-        <HeaderAdmin />
-        <Sidebar/>
-      </Layout>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<LoginAdmin />} />
+          <Route path="/register" element={<Register />} />
+
+          <Route path="/admin/*" element={<AdminLayout />} />
+
+          <Route path="*" element={<LoginAdmin />} />
+        </Routes>
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
