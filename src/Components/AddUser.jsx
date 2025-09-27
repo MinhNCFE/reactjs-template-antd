@@ -113,7 +113,7 @@ function AddUser({ fetchUsers }) {
           >
             <Select placeholder="Select role">
               <Option value="ROLE_USER">User</Option>
-              {/* <Option value="ROLE_ADMIN">Admin</Option> */}
+              <Option value="ROLE_MANAGER">Manager</Option>
             </Select>
           </Form.Item>
         </Form>

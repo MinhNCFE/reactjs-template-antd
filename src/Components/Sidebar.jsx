@@ -22,19 +22,33 @@ function getItem(label, key, icon, children) {
   };
 }
 
-const items = [
-  getItem("Home", "1", <HomeOutlined />),
-  getItem("Manage", "sub1", <DesktopOutlined />, [
-    getItem("User", "2"),
-    getItem("Product", "3"),
-    getItem("Categories", "4"),
-  ]),
-  getItem("Logout", "5", <LogoutOutlined />),
-];
-
 function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedKey, setSelectedKey] = useState("1");
+  const roles = JSON.parse(localStorage.getItem("roles") || "[]");
+  const isAdmin = roles.includes("ROLE_ADMIN");
+  const isManager = roles.includes("ROLE_MANAGER");
+
+  const items = [
+    getItem("Home", "1", <HomeOutlined />),
+    ...(isAdmin
+      ? [
+          getItem("Manage", "sub1", <DesktopOutlined />, [
+            getItem("User", "2"),
+            getItem("Product", "3"),
+            getItem("Categories", "4"),
+          ]),
+        ]
+      : []),
+    ...(isManager
+      ? [
+          getItem("Manage", "sub1", <DesktopOutlined />, [
+            getItem("Categories", "4"),
+          ]),
+        ]
+      : []),
+    getItem("Logout", "5", <LogoutOutlined />),
+  ];
 
   const renderContent = () => {
     switch (selectedKey) {
